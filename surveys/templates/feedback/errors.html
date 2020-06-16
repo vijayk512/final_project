@@ -1,0 +1,20 @@
+{% if form.errors %}
+<div class="text-danger">
+<h4>Please fix the following errors</h4>
+    {% for field in form %}
+    {% if field.errors %}
+    {% for error in field.errors %}
+    <p class="text-danger">{{ error|escape }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+
+</div>
+{% endif %}
+{% if message %}
+<div class="text-danger">
+    <h4>Please fix the following errors</h4>
+
+    <p class="text-danger">{{ message }}</p>
+</div>
+{% endif %}

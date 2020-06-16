@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+{% block title %}
+Survey Admin Users
+{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3 mb-2 text-gray-800">{% if form_data.id %} Update {% else %} Create {% endif %} Survey</h1>
+    <a href="{% url 'question' survey_id %}" class="btn btn-success btn-sm align-right">Back</a>
+
+</div>
+<form class="user" action="{% if form_data.id  %}{% url 'edit_question' form_data.id %}{% else %}{%  url 'add_question' survey_id %}{% endif %}" method="POST">
+    {% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea class="form-control form-control-user {% if error_message.question %} is-invalid {% endif %}" name="question" placeholder="Enter a question">{{ form_data.question }}</textarea>
+        {% if error_message.question %}
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ error_message.question }}</strong>
+        </span>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <select name="type" class="form-control" id="type">
+            {% if form_data.type == 'text' %}
+            <option value="text" selected>Text</option>
+            {%else%}
+            <option value="text" >Text</option>
+            {% endif %}
+            {% if form_data.type == 'radio' %}
+            <option value="radio"  selected >Radio</option>
+            {%else %}
+            <option value="radio">Radio</option>
+            {% endif %}
+        </select>
+    </div>
+
+    <div class="form-group" id="options" style="{% if form_data.type == 'text' %}display:none{% endif %}">
+        {% if form_data.type == 'radio' %}
+            {% for choice in choices %}
+            <div class="form-group">
+                <input type="text" name="options[]" class="form-control form-control-user" value="{{ choice.choice }}">
+            </div>
+            {% endfor %}
+
+        {% for i in options %}
+        <div class="form-group">
+            <input type="text" name="options[]" class="form-control form-control-user" value="">
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-user btn-block">{% if form_data.id %} Update Question {% else %} Create Question {% endif %}</button>
+
+</form>
+{% endblock %}

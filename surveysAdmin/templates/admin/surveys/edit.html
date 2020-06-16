@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Survey Admin Users
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3 mb-2 text-gray-800">{% if form_data.id %} Update {% else %} Create {% endif %} Survey</h1>
+    <a href="{% url 'surveys' %}" class="btn btn-success btn-sm align-right">Back</a>
+
+</div>
+<form class="user" action="{% if form_data.id  %} {% url 'edit_survey' form_data.id %} {% else %}  {%  url 'add_survey' %} {% endif %} " method="POST">
+    {% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user {% if error_message.title %} is-invalid {% endif %}" id="exampleFirstName" placeholder="Title" name="title" value="{{ form_data.title }}">
+        {% if error_message.title %}
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ error_message.title }}</strong>
+        </span>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <textarea class="form-control form-control-user {% if error_message.description %} is-invalid {% endif %}" name="description" placeholder="Enter Description">{{ form_data.description }}</textarea>
+        {% if error_message.description %}
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ error_message.description }}</strong>
+        </span>
+        {% endif %}
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="custom-control custom-checkbox small">
+                <input type="checkbox" class="custom-control-input" id="enable_flag" name="enable_flag">
+                <label class="custom-control-label" for="enable_flag">Enable Survey</label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-user btn-block">{% if form_data.id %} Update Survey {% else %} Create Survey {% endif %}</button>
+
+</form>
+{% endblock %}

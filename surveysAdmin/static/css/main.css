@@ -1,0 +1,13 @@
+.survey-bg {
+    background-color: #02B536!important;
+    background-image: url(/static/img/bg-cloud.png);
+}
+
+.logo {
+    height: 140px;
+    margin-top: 20px;
+}
+
+a {
+    color: #F86729;
+}

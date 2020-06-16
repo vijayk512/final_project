@@ -1,0 +1,37 @@
+{% extends "feedback/base.html" %}
+
+{% block title %}
+Survey
+
+{% endblock %}
+
+{% block body %}
+
+    <!-- Outer Row -->
+<div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-7">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="text-center border-bottom" style="padding-top:40px;">
+                    <h1 class="h4 text-gray-900 mb-4">Active Survey!</h1>
+                </div>
+                {% for survey in surveys %}
+                <div class="row">
+                    <div class="col-lg-3 p-5 ">{{ survey.title }}</div>
+                    <div class="col-lg-9 p-5 ">
+                        {{ survey.description }}
+                        <div class="d-flex">
+                            <a class="ml-auto p-2" href="{% url 'start' survey.id %}">Start Survey</a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

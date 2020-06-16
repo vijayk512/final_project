@@ -1,0 +1,93 @@
+{% extends "feedback/base.html" %}
+
+{% block title %}
+Survey
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Outer Row -->
+<div class="row justify-content-center">
+
+    <div class="col-xl-8 col-lg-12 col-md-7">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    </div>
+                    <form class="user" action="{% url 'register_user' %} " method="POST">
+                        {% if message %}
+                        <div class="alert alert-success">{{ message }}</div>
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name" required name="first_name" value="{{ form_data.first_name }}">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ error_message.first_name }}</strong>
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name" required name="last_name" value="{{ form_data.last_name }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user {% if error_message.username %} is-invalid {% endif %}" id="exampleInputUsername" placeholder="Username" required name="username" value="{{ form_data.username }}">
+                                {% if error_message.username %}
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ error_message.username }}</strong>
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control form-control-user {% if error_message.email %} is-invalid {% endif %}" id="exampleInputEmail" placeholder="Email Address" required name="email" value="{{ form_data.email }}">
+                                {% if error_message.email %}
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ error_message.email }}</strong>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" class="form-control form-control-user {% if error_message.password %} is-invalid {% endif %}" id="exampleInputPassword" placeholder="Password" aria-autocomplete="list" name="password">
+                                {% if error_message.password %}
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ error_message.password }}</strong>
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control form-control-user {% if error_message.confirm_password %} is-invalid {% endif %}" id="exampleRepeatPassword" placeholder="Confirm Password" name="confirm_password">
+                                {% if error_message.confirm_password %}
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ error_message.confirm_password }}</strong>
+                                </span>
+                                    {% endif %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">{% if form_data.id %} Update User {% else %} Create User {% endif %}</button>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+                        <a class="small" href="{% url 'login_user' %}">Already have an account? Login!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}

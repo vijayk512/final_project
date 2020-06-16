@@ -1,0 +1,21 @@
+
+.survey-bg {
+    background-image: url(/static/img/bg-cloud.png);
+}
+
+.logo {
+    height: 140px;
+    margin-top: 20px;
+}
+
+a {
+    color: #F86729;
+}
+.footer {
+  padding: 15px 0px;
+  width: 100%;
+}
+
+.bg-login-image {
+    background: url(https://source.unsplash.com/WLUHO9A_xik/1200x500) !important;
+}

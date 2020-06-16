@@ -1,0 +1,71 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Survey Admin Users
+
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3 mb-2 text-gray-800">Surveys</h1>
+    {% if user.is_superuser %}
+    <a href="{% url 'add_survey' %}" class="btn btn-success btn-sm align-right">Add Surveys</a>
+    {% endif %}
+</div>
+<table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for survey in surveys %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ survey.title }}</td>
+        <td class="break-word" style="width: 40%;">{{ survey.description }}</td>
+        <td>{% if survey.enable_flag == 'True' %} Active {% else %} In-Active {% endif %}</td>
+        {% if user.is_superuser %}
+        <td> <a href="{% url 'edit_survey' survey.id %}"><i class="fas fa-edit"></i> </a>|
+            <a href="#" onclick="document.getElementById('survey_id').value = {{ survey.id }}" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash fa-trash-alt"></i></a>
+            | <a href="{% url 'question' survey.id %}"><i class="fas fa-question"></i></a> </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+<!-- Delete Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Are you want to delete this survey!</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" href="{% url 'delete_survey' %}"
+                   onclick="event.preventDefault();
+							 document.getElementById('delete-form').submit();">
+                    Delete
+                </a>
+
+                <form id="delete-form" action="{% url 'delete_survey' %}" method="POST" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="survey_id" id="survey_id" value="" >
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

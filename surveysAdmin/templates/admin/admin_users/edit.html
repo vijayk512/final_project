@@ -1,0 +1,80 @@
+{% extends "admin/base.html" %}
+
+{% block title %}
+Survey Admin Users
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h3 mb-2 text-gray-800">{% if form_data.id %} Update {% else %} Create {% endif %} Survey Admin Users</h1>
+    <a href="{% url 'users' %}" class="btn btn-success btn-sm align-right">Back</a>
+
+</div>
+<form class="user" action="{% if form_data.id  %} {% url 'edit_users' form_data.id %} {% else %}  {%  url 'add_users' %} {% endif %} " method="POST">
+    {% if message %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+    {% csrf_token %}
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name" required name="first_name" value="{{ form_data.first_name }}">
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ error_message.first_name }}</strong>
+            </span>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name" required name="last_name" value="{{ form_data.last_name }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <input type="text" class="form-control form-control-user {% if error_message.username %} is-invalid {% endif %}" id="exampleInputUsername" placeholder="Username" required name="username" value="{{ form_data.username }}">
+            {% if error_message.username %}
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ error_message.username }}</strong>
+            </span>
+            {% endif %}
+        </div>
+        <div class="col-sm-6">
+            <input type="email" class="form-control form-control-user {% if error_message.email %} is-invalid {% endif %}" id="exampleInputEmail" placeholder="Email Address" required name="email" value="{{ form_data.email }}">
+            {% if error_message.email %}
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ error_message.email }}</strong>
+            </span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="password" class="form-control form-control-user {% if error_message.password %} is-invalid {% endif %}" id="exampleInputPassword" placeholder="Password" aria-autocomplete="list" name="password">
+            {% if error_message.password %}
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ error_message.password }}</strong>
+            </span>
+            {% endif %}
+        </div>
+        <div class="col-sm-6">
+            <input type="password" class="form-control form-control-user {% if error_message.confirm_password %} is-invalid {% endif %}" id="exampleRepeatPassword" placeholder="Confirm Password" name="confirm_password">
+            {% if error_message.confirm_password %}
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ error_message.confirm_password }}</strong>
+            </span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group">
+        <p>Super User</p>
+        <div class="custom-control custom-radio small">
+            <input type="radio" class="custom-control-input" name="is_superuser" value="yes" id="yes" {% if form_data.is_superuser %} checked {% endif %}>
+            <label class="custom-control-label" for="yes">Yes</label>
+        </div>
+        <div class="custom-control custom-radio small">
+
+        <input type="radio" class="custom-control-input" name="is_superuser" value="no" id="no" {% if form_data.is_superuser == False %} checked {% endif %}>
+            <label class="custom-control-label" for="no">No</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-user btn-block">{% if form_data.id %} Update User {% else %} Create User {% endif %}</button>
+
+</form>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "feedback/base.html" %}
+
+{% block title %}
+Survey
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Outer Row -->
+<div class="row justify-content-center">
+
+    <div class="col-xl-8 col-lg-12 col-md-7">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="text-center border-bottom" style="padding-top:40px;">
+                    <h1 class="h4 text-gray-900 mb-4">{{ survey.title }}</h1>
+                    <p>{{ survey.description }}</p>
+                </div>
+                <div class="p-5">
+                    <form class="user" method="post" action="{% url 'next_question' survey.id c_q_id %}">
+                        {% if message %}
+                        <div class="alert alert-success">{{ message }}</div>
+                        {% endif %}
+                        {% csrf_token %}
+
+                        {% for question in questions %}
+                    <div class="form-group">
+                        {{ question.question }}
+                        {% if question.type == 'text' %}
+                            <input type="text" class="form-control form-control-user" name="choice">
+                        {% endif %}
+                        {% if question.type == 'radio' %}
+                            {% for c in choices %}
+                                <div class="custom-control custom-radio small">
+                                    <input type="radio" class="custom-control-input" name="choice" value="{{ c.choice }}" id="{{ c.choice }}">
+                                    <label class="custom-control-label" for="{{ c.choice }}">{{ c.choice }}</label>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="d-flex float-right">
+                            <button type="submit" class=" ml-auto btn-primary btn-user m-2">Submit</button>
+                            {% if question_id != 0 %}
+                            <a class="ml-auto btn-info btn-user m-2" href="{% url 'next_question' survey.id question_id %}">Next Question</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
